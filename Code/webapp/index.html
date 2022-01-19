@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="UIC CS494 SP20 Module 3">
+  <meta name="author" content="Tomasz Hulka">
+
+  <title>TheraSole - Gait Analysis App</title>
+
+  <!-- CDNS and more -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+  <link href="stylesheet.css" rel="stylesheet">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js" integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha384-5h4UG+6GOuV9qXh6HqOLwZMY4mnLPraeTrjT5v07o347pj6IkfuoASuGBhfDsp3d" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/d9f17fec2b.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+  <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5.serialserver@0.0.28/lib/p5.serialport.js"></script>
+  <script src="sketch.js"></script> 
+  <script src="p5.sound.js"></script>
+  <script src="grafica.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Features</div>
+      <div class="list-group list-group-flush" id="sbar">
+        <a href="#" data-screen="home" class="list-group-item list-group-item-action bg-light">Home <i class="fas fa-home"></i></a>
+        <a href="#" data-screen="walking" class="list-group-item list-group-item-action bg-light">Walking <i class="fas fa-shoe-prints"></i></a>
+        <a href="#" data-screen="profile" class="list-group-item list-group-item-action bg-light">Profile <i class="fas fa-user"></i></a>
+        <a href="#" data-screen ="motion" class="list-group-item list-group-item-action bg-light">Motion <i class="far fa-clock"></i></a>
+        <a href="#" data-screen="therapy" class="list-group-item list-group-item-action bg-light">Therapy <i class="fas fa-user-md"></i></a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      
+      <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top"> -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle" style="margin-left: 5px;">View Menu</button>
+      </nav>
+
+
+      <!-- Home page -->
+      <div class="container-fluid screen mt-1" id="home">
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center">
+            <h1 class="mt-4 mb-2">Welcome to TheraSole<i style="font-size: 20px;" class="far fa-copyright"></i></h1>
+          </div>
+          <div class="col-md-4  m-auto text-center">
+            <div class="card">
+              <img class="card-img-top" src="https://www.tekscan.com/sites/default/files/f-scan-inset.jpg" style="max-height: 400px;" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">
+                  <h5>TheraSole<i style="font-size: 10px;" class="far fa-copyright"></i> is a wearable smart shoe insole that incorporates force sensors and accelerators for the purpose of analyzing the user's gait. This responsive interface creates stunning visualizations and metrics that can be viewed on any device</h5>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5 ml-3 mr-3">
+          <div class="col-md-12 text-center">
+            <h3><b>We support four different modes with our device</b></h3>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5" id="modeInfo">
+            <div class="row">
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <img class="card-img-top" src="https://www.active.com/Assets/Running/620/Finding+Your+Perfect+Run+Stride+620.jpg" style="height: 204px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title"><b>Walking:</b> <i class="fas fa-shoe-prints"></i></h5>
+                    <p class="card-text">After collecting data for a 2 minute period, learn your cadence and step count. Displays force pad visualization and gyroscopic data.</p>        
+                  </div>
+                </div>
+              </div>  
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <img class="card-img-top" src="https://i.pinimg.com/originals/5e/1d/b0/5e1db03ff5d0fdeeb9c2397ae97820c3.png" style="height: 204px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title"><b>Profile:</b> <i class="fas fa-user"></i></h5>
+                    <p class="card-text">Analyzes five gait profiles for 30 seconds each and calculates the Medial Force Percentage. Displays the current walking profile.</p>
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div>  
+          <div class="col-md-5 " id="modeInfo">
+            <div class="row">
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <img class="card-img-top" src="https://ak6.picdn.net/shutterstock/videos/1016312956/thumb/1.jpg?ip=x480" style="height: 204px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title"><b>Motion:</b> <i class="far fa-clock"></i></h5>
+                    <p class="card-text">Determines whether the user is in motion or standing still.<br><br></p>
+                  </div>
+                </div>
+              </div>  
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <img class="card-img-top" src="https://santecares.com/wp-content/uploads/2019/04/4-9-1.jpg" style="height: 204px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title"><b>Therapy:</b> <i class="fas fa-user-md"></i></h5>
+                    <p class="card-text">Ensures that the gait cycle of a single foot is correct for those undergoing physical therapy.<br><br></p>
+                   
+                  </div>
+                </div>
+              </div>  
+            </div>  
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-12 text-center mt-2 mb-5">
+           <h5><span style="font-style: italic;">To use these modes access the menu by the button in the top left.</span>
+              <i class="bi bi-arrow-up-left-circle-fill"></i> </h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid screen mt-1" id="walking">
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center">
+            <h2 class="mt-4"> Walking <i class="fas fa-shoe-prints"></i></h2>
+            <div class="col-md-4  m-auto text-center">
+              <p>
+                This mode helps you learn your cadence and step count.
+              </p>
+              <h1 id="time" class="mt-4"></h1>
+
+              <h3 id="steps" class="mt-4"></h1>
+              <!-- <h6 class="mb-0">Stride Length:  </h6> -->
+             
+              <button class="btn btn-primary" id="startWalking" style="margin-left: 5px;" onclick="startActivity()">Start tracking</button>
+              <div class="col-md-6" id="currentData">
+                <!-- <h1 id="status"></h1> -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-12  m-auto text-center"  id="walkingCanvas">
+          </div>
+          <div class= "col-md-6  text-center" id="walkingGraph1"></div>
+          <div class= "col-md-6 text-center" id="walkingGraph2"> </div>
+          <div class= "col-md-6 text-center" id="walkingGraph3"> </div>
+          <div class= "col-md-6 text-center" id="walkingGraph4"> </div>
+
+
+        </div>
+      </div>
+
+
+      <div class="container-fluid screen mt-1" id="profile">
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center">
+            <h2 class="mt-4"> Profile <i class="fas fa-user"></i> </h2>
+            <p>
+              This mode analyzes five gait profiles for 30 seconds each and calculates the Medial Force Percentage. Displays the current walking profile.
+            </p>
+            <div class="col-md-4  m-auto text-center">
+              <h1 class="mt-4"></h1>
+              <h6></h6>
+              <!-- <button class="btn btn-primary" id="start-motion" style="margin-left: 5px;">Start tracking</button> -->
+
+            </div>
+          </div>
+        </div>
+        <div id="testingRow" class="row ml-5 mr-5 collapse">
+          <div class="col-md-12 text-center">
+            <h3>Lets test your calibrations</h3>
+            <p>To test please click start tracking</p>
+            <button class="btn btn-primary" id="btnTesting" style="margin-left: 5px;" onclick="startGaitTest()">Start Tracking</button>
+          </div>
+        </div>
+        <div id="calibrationRow" class="row ml-5 mr-5">
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 id="normalGaitText" class="card-title"><b>Calibrate Normal Gait:</b> <i  class="far fa-times-circle text-danger"></i></h5>
+                    <p class="card-text">This is the state of walking normally.<br><br></p>
+                    <button class="btn btn-primary" id="btnCalNormal" style="margin-left: 5px;" onclick="startGaitCalibration('normal')">Calibrate Normal</button>
+                  </div>
+                </div>
+              </div>  
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title" id="tiptoeGaitText"><b>Calibrate Tip-Toe Gait:</b> <i class="far fa-times-circle text-danger"></i></h5>
+                    <p class="card-text">This is the state of walking on your tip toes.<br><br></p>
+                    <button class="btn btn-primary" id="btnCalTipToe" style="margin-left: 5px;" onclick="startGaitCalibration('tiptoe')">Calibrate Tip-Toe</button>
+                  </div>
+                </div>
+              </div>  
+            </div>  
+          </div>
+          <div class="col-md-2 mt-2 mb-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 id="heelGaitText" class="card-title"><b>Calibrate Heel Gait:</b> <i class="far fa-times-circle text-danger"></i></h5>
+                <p class="card-text">This is the state of walking on your heels.<br><br></p>
+                <button class="btn btn-primary" id="btnCalHeel" style="margin-left: 5px;" onclick="startGaitCalibration('heel')">Calibrate Heel</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 id="intoeGaitText" class="card-title"><b>Calibrate In-Toe Gait:</b> <i class="far fa-times-circle text-danger"></i></h5>
+                    <p class="card-text">This is the state of walking with your toes facing in.<br><br></p>
+                    <button class="btn btn-primary" id="btnCalInToe" style="margin-left: 5px;" onclick="startGaitCalibration('intoe')">Calibrate In-Toe</button>
+                  </div>
+                </div>
+              </div>  
+              <div class="col-md-6 mt-2 mb-2" id="modeInfo">
+                <div class="card">
+                  <div class="card-body">
+                    <h5  id="outtoeGaitText" class="card-title"><b>Calibrate Out-Toe Gait:</b> <i class="far fa-times-circle text-danger"></i></h5>
+                    <p class="card-text">This is the state of walking with your toes facing out.<br><br></p>
+                    <button class="btn btn-primary" id="btnCalOutToe" style="margin-left: 5px;" onclick="startGaitCalibration('outtoe')">Calibrate Out-Toe</button>
+                  </div>
+                </div>
+              </div>  
+            </div>  
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center" id="currentTime">
+            <h1 id="time"></h1>
+            <h1 id="status"></h1>
+          </div>
+          <!-- <div class="col-md-6" id="currentData">
+          </div> -->
+          <div class="col-md-6  m-auto text-center" class="col-md-6" id="profileCanvas">
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid screen mt-1" id="therapy">
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center">
+            <h2 class="mt-4"> Therapy <i class="fas fa-user-md"></i> </h2>
+            <div class="col-md-4  m-auto text-center">
+              <h6 class="mb-0"></h6>
+              <p>
+                This mode ensures that you are walking heel to toe.
+              </p>
+
+            </div>
+            <h1 id="status"></h1>
+
+          </div>
+          <!-- <div class="col-md-6" id="currentData">
+            <h1 class="mt-4" id="time"></h1>
+
+           
+            <h1 id="data"></h1>
+            <p id="myC"></p>
+            <p id="myS"></p>
+
+
+
+          </div> -->
+          <div class="col-md-6  m-auto text-center" class="col-md-6" id="therapyCanvas">
+          </div>
+        </div>
+      </div>
+  
+      <div class="container-fluid screen mt-1" id="motion">
+        <div class="row ml-5 mr-5">
+          <div class="col-md-12 text-center">
+            <h2 class="mt-4"> Motion <i class="far fa-clock"></i></h2>
+            <div class="col-md-4  m-auto text-center">
+              <p>
+                This mode determines whether the user is in motion or standing still.
+              </p>
+              <!-- <button class="btn btn-primary" id="start-motion" style="margin-left: 5px;">Start tracking</button> -->
+
+            </div>
+            <div class="col-md-6  m-auto text-center">
+              <h1 id="status"></h1>
+              <h4 id="timeInMotion"></h4>
+              <h4 id="timeNotInMotion"></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      
+    
+     
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <script>
+
+  function startActivity(){
+      walkingStarted = true;
+  }
+
+
+  function startGaitTest(){
+    testingCalibration = true;
+  }
+
+  function startGaitCalibration(gaitType){
+    let btnCalNormal = document.getElementById('btnCalNormal');
+    let btnCalTipToe = document.getElementById('btnCalTipToe');
+    let btnCalHeel = document.getElementById('btnCalHeel');
+    let btnCalInToe = document.getElementById('btnCalInToe');
+    let btnCalOutToe = document.getElementById('btnCalOutToe');
+
+    btnCalNormal.disabled = true;
+    btnCalTipToe.disabled = true;
+    btnCalHeel.disabled = true;
+    btnCalInToe.disabled = true;
+    btnCalOutToe.disabled = true;
+
+      switch(gaitType){
+        case "normal":
+          calibratingNormal = true;
+          break;
+        case "tiptoe":
+          calibratingTipToe = true;
+          break;
+        case "heel":
+          calibratingHeel = true;
+          break;
+        case "intoe":
+          calibratingInToe = true;
+          break;
+        case "outtoe":
+          calibratingOutToe = true;
+          break;
+      }
+  }
+
+
+
+
+    // let myp5;
+    document.addEventListener('DOMContentLoaded', function() {
+        //myp5 = new p5(dummyP5, 'dummyDiv');
+        
+        // menu button handler
+        document.querySelector('#menu-toggle').addEventListener("click", (event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelector('#wrapper').classList.toggle("toggled");
+        })
+    }, false);
+
+    
+
+   
+    // // motion button handler
+    // document.querySelector('#start-motion').addEventListener("click", (event) => {
+    //   startMotionMode();
+    // })
+
+
+    //
+    // sidebar tab code below 
+    //
+
+
+    document.querySelector("#home").style.display = "block";
+    let menuOptions = document.querySelectorAll('div#sbar a');
+
+    // handle clicks on each tab on the lefthand side
+    menuOptions.forEach( (anchor) => {   
+        anchor.addEventListener("click", (event) => {
+
+                document.querySelectorAll(".screen").forEach((screen) => {
+                    screen.style.display = "none"; // get rid of the open screens
+                })
+
+                let screen = event.target.getAttribute("data-screen");
+
+                switch(screen){
+                  case "motion":
+                    startMotionMode();
+                    break;
+                  case "profile":
+                    startProfileMode();
+                    break;
+                  case "therapy":
+                    startTherapyMode();
+                    break;
+                  case "walking":
+                    startWalkingMode();
+                    break;
+                }
+
+                let targetScreen = document.querySelector("#" + screen);
+                targetScreen.style.display = "block"; // display only the selected screen
+                document.querySelector('#wrapper').classList.toggle("toggled");
+
+        
+        })
+
+    })
+
+    function startProfileMode(){
+      document.querySelector("#profile #status").innerHTML = "Walking profiles not configured";
+      setTimeout(startProfile, 0);
+    }
+
+    function startMotionMode() {
+      document.querySelector("#motion #status").innerHTML = "Please wait";
+      setTimeout(startMotion, 3000);
+    }
+
+    function startTherapyMode(){
+      document.querySelector("#therapy #status").innerHTML = "Please wait";
+      setTimeout(startTherapy, 3000);
+    }
+
+    function startWalkingMode() {
+      //document.querySelector("#walking #status").innerHTML = "Please wait";
+      graphFSRs();
+      setTimeout(startWalking, 0);
+    }
+    
+
+  </script>
+
+</body>
+
+</html>
